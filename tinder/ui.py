@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import aiohttp
 import io
-import constants as constants
+import constants
 
 async def create_tinder_image(avatar_url: str, name: str, age: int, bio: str) -> Image.Image:
     """

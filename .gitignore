@@ -2,3 +2,4 @@
 *.py[cod]
 .env
 *.env
+*/bot.db
