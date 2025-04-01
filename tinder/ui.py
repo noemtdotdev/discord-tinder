@@ -69,17 +69,6 @@ async def create_tinder_image(avatar_url: str, name: str, age: int, bio: str) ->
     
     draw = ImageDraw.Draw(card)
     
-    overlay = Image.new("RGBA", (card_width, 280), (0, 0, 0, 0))
-    overlay_draw = ImageDraw.Draw(overlay)
-    
-    for y in range(280):
-        alpha = min(180, int(y * 1.3))
-        overlay_draw.line([(0, y), (card_width, y)], fill=(0, 0, 0, alpha))
-    
-    card.paste(Image.alpha_composite(Image.new("RGBA", (card_width, 280), (0, 0, 0, 0)), overlay), 
-              (0, card_height - 280), 
-              mask=overlay)
-    
     name_font = ImageFont.truetype(constants.FONT_MEDIUM_PATH, 40)
     bio_font = ImageFont.truetype(constants.FONT_PATH, 30)
     

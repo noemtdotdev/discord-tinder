@@ -80,34 +80,50 @@ class DatabaseSchema:
             """
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY,
-                bio TEXT
+                bio TEXT,
+                vip INTEGER DEFAULT 0
             )
             """,
             """
-            CREATE TABLE IF NOT EXISTS likes (
-                id INTEGER PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS interactions (
                 user_id INTEGER,
-                liked_user_id INTEGER,
-                FOREIGN KEY (user_id) REFERENCES users (id),
-                FOREIGN KEY (liked_user_id) REFERENCES users (id)
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS matches (
-                id INTEGER PRIMARY KEY,
-                user1_id INTEGER,
-                user2_id INTEGER,
-                FOREIGN KEY (user1_id) REFERENCES users (id),
-                FOREIGN KEY (user2_id) REFERENCES users (id)
-            )
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS dislikes (
-                id INTEGER PRIMARY KEY,
-                user_id INTEGER,
-                disliked_user_id INTEGER,
-                FOREIGN KEY (user_id) REFERENCES users (id),
-                FOREIGN KEY (disliked_user_id) REFERENCES users (id)
+                target_id INTEGER,
+                interaction TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, target_id)
             )
             """
         ]
+
+class User:
+    def __init__(self, user_id: int, bio: str = None, vip: bool = False):
+        self.user_id = user_id
+        self.bio = bio
+        self.vip = vip
+
+    def __repr__(self):
+        return f"User(id={self.user_id}, bio={self.bio}, vip={self.vip})"
+    
+class Like:
+    def __init__(self, user_id: int, liked_user_id: int):
+        self.user_id = user_id
+        self.liked_user_id = liked_user_id
+
+    def __repr__(self):
+        return f"Like(user_id={self.user_id}, liked_user_id={self.liked_user_id})"
+    
+class Match:
+    def __init__(self, user1_id: int, user2_id: int):
+        self.user1_id = user1_id
+        self.user2_id = user2_id
+
+    def __repr__(self):
+        return f"Match(user1_id={self.user1_id}, user2_id={self.user2_id})"
+    
+class Dislike:
+    def __init__(self, user_id: int, disliked_user_id: int):
+        self.user_id = user_id
+        self.disliked_user_id = disliked_user_id
+
+    def __repr__(self):
+        return f"Dislike(user_id={self.user_id}, disliked_user_id={self.disliked_user_id})"
